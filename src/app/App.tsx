@@ -1,5 +1,5 @@
-import PapaPage from "../pages/PapaPage";
+import PapaSheetPage from "@/pages/PapaSheetPage";
 
 export default function App() {
-  return <PapaPage />;
+  return <PapaSheetPage />;
 }

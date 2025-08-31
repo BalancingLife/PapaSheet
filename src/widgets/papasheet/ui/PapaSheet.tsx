@@ -9,12 +9,12 @@ export default function PapaSheet() {
     setCells((prev) => ({ ...prev, [addr]: value }));
   };
 
-  // 간단한 10×10 그리드 렌더 (나중에 200×200 확장)
-  const rows = 10;
-  const cols = 10;
+  //그리드 몇칸인지
+  const rows = 200;
+  const cols = 26;
 
   return (
-    <div className="mt-53 overflow-auto max-w-full max-h-[70vh]">
+    <div className="pt-13 overflow-auto max-w-full max-h-[93vh]">
       <table className="border-collapse">
         <thead>
           <tr>
@@ -26,6 +26,7 @@ export default function PapaSheet() {
             ))}
           </tr>
         </thead>
+
         <tbody>
           {Array.from({ length: rows }, (_, r) => (
             <tr key={r}>
