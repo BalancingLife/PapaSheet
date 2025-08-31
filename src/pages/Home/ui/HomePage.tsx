@@ -1,13 +1,13 @@
-import Header from "@/widgets/header/ui/Header";
-import PapaSheet from "@/widgets/papasheet/ui/PapaSheet";
-import Footer from "@/widgets/footer/ui/Footer";
+import { Header } from "@/widgets/header";
+import { Grid } from "@/widgets/grid";
+import { Footer } from "@/widgets/footer";
 
 export default function PapaPage() {
   return (
     <>
       <div className="min-h-screen bg-gray-50">
         <Header />
-        <PapaSheet />
+        <Grid />
         <Footer />
       </div>
     </>

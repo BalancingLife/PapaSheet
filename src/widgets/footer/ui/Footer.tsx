@@ -1,6 +1,6 @@
-import { AddSheetButton, AllSheetsButton } from "@/shared/ui/Button";
+import { AddSheetButton, AllSheetsButton } from "@/shared/ui/button";
 
-export default function Footer() {
+export const Footer = () => {
   return (
     <footer className="fixed bottom-0 left-0 w-full border-t border-[rgb(225,227,225)] bg-[#F8FDFD] px-4 py-2 flex items-center text-gray-600">
       {/* 좌측 버튼 영역 */}
@@ -31,4 +31,4 @@ export default function Footer() {
       </div>
     </footer>
   );
-}
+};
