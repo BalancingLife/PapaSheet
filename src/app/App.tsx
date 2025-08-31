@@ -1,9 +1,5 @@
-function App() {
-  return (
-    <div>
-      <h1 className="text-3xl font-bold underline">PapaSheet</h1>
-    </div>
-  );
-}
+import PapaPage from "../pages/PapaPage";
 
-export default App;
+export default function App() {
+  return <PapaPage />;
+}
