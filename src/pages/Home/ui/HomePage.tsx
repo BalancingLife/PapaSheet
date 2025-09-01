@@ -6,7 +6,7 @@ export default function PapaPage() {
   return (
     <>
       <div className="min-h-screen bg-gray-50">
-        <div className="pb-20">
+        <div className="pb-13">
           <Header />
         </div>
 
