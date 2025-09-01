@@ -1,6 +1,6 @@
 export const Header = () => {
   return (
-    <header className="fixed top-0 left-0 w-full bg-[rgb(4,171,70)] text-white shadow-md">
+    <header className="fixed top-0 left-0 w-full bg-[rgb(4,171,70)] text-white shadow-md z-99">
       <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
         {/* 좌측 로고 */}
         <div className="text-lg font-bold tracking-wide">PapaSheet</div>

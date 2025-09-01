@@ -1,8 +1,6 @@
 import { Header } from "@/widgets/header";
-import { Grid } from "@/widgets/grid";
 import { Footer } from "@/widgets/footer";
-import { GridHeader } from "@/widgets/grid/ui/GridHeader";
-import { GridIndex } from "@/widgets/grid/ui/GridIndex";
+import { Sheet } from "@/widgets/grid/ui/Sheet";
 
 export default function PapaPage() {
   return (
@@ -11,9 +9,9 @@ export default function PapaPage() {
         <div className="pb-20">
           <Header />
         </div>
-        <GridHeader />
-        <GridIndex />
-        <Grid />
+
+        <Sheet />
+
         <Footer />
       </div>
     </>
