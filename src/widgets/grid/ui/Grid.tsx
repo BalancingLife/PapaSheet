@@ -1,5 +1,6 @@
-// widgets/grid/Grid.tsx
+// widgets/grid/ui/Grid.tsx
 import { Cell } from "./Cell";
+import { useActive, useSetActive } from "../model/store";
 import {
   DEFAULT_COL_COUNT,
   DEFAULT_ROW_COUNT,
@@ -7,6 +8,9 @@ import {
 } from "../config/constants";
 
 export const Grid = () => {
+  const active = useActive();
+  const setActive = useSetActive();
+
   const rows = Array.from({ length: DEFAULT_ROW_COUNT }, (_, r) => r);
   const cols = Array.from({ length: DEFAULT_COL_COUNT }, (_, c) => c);
 
@@ -18,8 +22,17 @@ export const Grid = () => {
         width: DEFAULT_COL_COUNT * CELL_WIDTH,
       }}
     >
-      {rows.map((row) =>
-        cols.map((col) => <Cell key={`${row}-${col}`} row={row} col={col} />)
+      {rows.flatMap((row) =>
+        cols.map((col) => (
+          <Cell
+            key={`${row}-${col}`}
+            row={row}
+            col={col}
+            value={""}
+            isActive={active?.row === row && active?.col === col}
+            onClick={() => setActive({ row, col })}
+          />
+        ))
       )}
     </div>
   );

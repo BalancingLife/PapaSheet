@@ -1,21 +1,22 @@
+import React from "react";
+import type { CellProps } from "../types";
 import { CELL_WIDTH, CELL_HEIGHT } from "../config/constants";
 
-// 개별 셀 컴포넌트 (값/포커스/편집 상태 표시)
-interface CellProps {
-  row: number;
-  col: number;
-}
-
-export const Cell = ({ row, col }: CellProps) => {
+export const Cell = React.memo(function Cell({
+  value,
+  isActive = false,
+  onClick,
+}: CellProps) {
   return (
     <div
-      className="border border-gray-200 flex items-center justify-center text-sm text-gray-600 hover:bg-gray-100"
-      style={{
-        width: CELL_WIDTH,
-        height: CELL_HEIGHT,
-      }}
+      onClick={onClick}
+      className={[
+        "border border-gray-200 flex items-center justify-center text-sm ",
+        isActive ? "bg-blue-100 border-blue-400" : "bg-white hover:bg-gray-100",
+      ].join(" ")}
+      style={{ width: CELL_WIDTH, height: CELL_HEIGHT }}
     >
-      {row + 1}, {String.fromCharCode(65 + col)}
+      {value}
     </div>
   );
-};
+});
