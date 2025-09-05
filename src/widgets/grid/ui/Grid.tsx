@@ -1,4 +1,5 @@
 // widgets/grid/ui/Grid.tsx
+import { useMemo, useCallback } from "react";
 import { Cell } from "./Cell";
 import { useActive, useSetActive } from "../model/store";
 import {
@@ -11,8 +12,22 @@ export const Grid = () => {
   const active = useActive();
   const setActive = useSetActive();
 
-  const rows = Array.from({ length: DEFAULT_ROW_COUNT }, (_, r) => r);
-  const cols = Array.from({ length: DEFAULT_COL_COUNT }, (_, c) => c);
+  const rows = useMemo(
+    () => Array.from({ length: DEFAULT_ROW_COUNT }, (_, r) => r),
+    []
+  );
+  const cols = useMemo(
+    () => Array.from({ length: DEFAULT_COL_COUNT }, (_, c) => c),
+    []
+  );
+
+  // 셀 공용 클릭 핸들러 (참조 안정)
+  const handleCellClick = useCallback(
+    (row: number, col: number) => {
+      setActive({ row, col });
+    },
+    [setActive]
+  );
 
   return (
     <div
@@ -30,7 +45,7 @@ export const Grid = () => {
             col={col}
             value={""}
             isActive={active?.row === row && active?.col === col}
-            onClick={() => setActive({ row, col })}
+            onClick={handleCellClick}
           />
         ))
       )}
