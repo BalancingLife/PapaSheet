@@ -12,5 +12,5 @@ export interface CellProps {
     col: number
   ) => void;
   onMouseEnter?: (row: number, col: number) => void;
-  edge?: { top?: boolean; right?: boolean; bottom?: boolean; left?: boolean }; // ✅
+  edge?: { top?: boolean; right?: boolean; bottom?: boolean; left?: boolean };
 }

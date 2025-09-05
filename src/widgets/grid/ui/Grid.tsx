@@ -77,7 +77,7 @@ export const Grid = () => {
   // 그리드 밖에서 mouseup 되는 경우도 마감되도록 window 리스너
   useEffect(() => {
     const onUp = () => {
-      const cells = endSelection(); // ✅ 배열을 즉시 획득
+      const cells = endSelection();
       console.log("active cells:", cells);
     };
     window.addEventListener("mouseup", onUp);

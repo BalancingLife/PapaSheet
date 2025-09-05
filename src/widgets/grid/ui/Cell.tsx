@@ -44,13 +44,13 @@ export const Cell = React.memo(function Cell({
   // 기본 클래스
   const classes = ["flex items-center justify-center text-sm select-none"];
 
-  // ✅ 배경: isActive면 반드시 blue-200
+  // 배경: isActive면 반드시 blue-200
   classes.push(isActive ? "bg-blue-200" : "bg-white hover:bg-gray-100");
 
-  // ✅ 기본 보더는 항상 회색(내부 그리드선 유지)
+  // 기본 보더는 항상 회색(내부 그리드선 유지)
   classes.push("border border-gray-200");
 
-  // ✅ edge가 있는 면만 파란 보더로 오버라이드 (확정 후에만 내려옴)
+  // edge가 있는 면만 파란 보더로 오버라이드 (확정 후에만 내려옴)
   if (edge?.top) classes.push("border-t-2 border-t-blue-500");
   if (edge?.right) classes.push("border-r-2 border-r-blue-500");
   if (edge?.bottom) classes.push("border-b-2 border-b-blue-500");
