@@ -3,6 +3,9 @@ import { create } from "zustand";
 export type Pos = { row: number; col: number };
 export type Range = { start: Pos; end: Pos };
 export type Bounds = { r1: number; r2: number; c1: number; c2: number };
+export type CellKey = string; // "row:col" 형태
+export const makeCellKey = (row: number, col: number): CellKey =>
+  `${row}:${col}`;
 
 function normalize(a: Pos, b: Pos) {
   const r1 = Math.min(a.row, b.row);
@@ -36,6 +39,13 @@ function cellsFromRange(range: Range) {
 }
 
 type GridState = {
+  // 값 보관 : { "row:column" : "value" }
+  values: Record<CellKey, string>;
+
+  // 액션
+  setValue: (row: number, col: number, value: string) => void;
+  getValue: (row: number, col: number) => string | undefined;
+
   // 단일 활성 셀(포커스 개념으로 유지하고 싶으면 사용)
   active: Pos | null;
 
@@ -56,6 +66,19 @@ type GridState = {
 };
 
 export const useGridStore = create<GridState>((set, get) => ({
+  values: {},
+
+  setValue: (row, col, value) => {
+    const key = makeCellKey(row, col);
+    set((state) => {
+      const prev = state.values[key];
+      if (prev === value) return state;
+      return { values: { ...state.values, [key]: value } };
+    });
+  },
+
+  getValue: (row, col) => get().values[makeCellKey(row, col)],
+
   active: null,
   activeCells: [],
   activeCellMap: {},
@@ -120,6 +143,9 @@ export const useGridStore = create<GridState>((set, get) => ({
     return current;
   },
 }));
+
+export const selectCellValue = (row: number, col: number) => (s: GridState) =>
+  s.values[makeCellKey(row, col)] ?? "";
 
 // 개별 훅으로 쪼개서 리렌더 최소화
 export const useActive = () => useGridStore((s) => s.active);
