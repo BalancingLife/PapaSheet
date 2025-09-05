@@ -9,6 +9,7 @@ export const Cell = React.memo(function Cell({
   col,
   value,
   isActive = false,
+  edge,
   onClick,
   onMouseDown,
   onMouseEnter,
@@ -40,15 +41,30 @@ export const Cell = React.memo(function Cell({
   //   );
   // });
 
+  // 기본 클래스
+  const classes = ["flex items-center justify-center text-sm select-none"];
+
+  // 배경
+  classes.push(isActive ? "bg-blue-100" : "bg-white hover:bg-gray-100");
+
+  // 보더:
+  // - edge가 있을 때(=확정 후 가장자리): 내부선 투명 + 변마다 파란 보더
+  // - 그 외(비활성 + 드래그 중 미리보기): 기본 회색 보더 유지
+  if (edge) {
+    classes.push("border border-transparent");
+    if (edge.top) classes.push("border-t-2 border-t-blue-500");
+    if (edge.right) classes.push("border-r-2 border-r-blue-500");
+    if (edge.bottom) classes.push("border-b-2 border-b-blue-500");
+    if (edge.left) classes.push("border-l-2 border-l-blue-500");
+  } else {
+    classes.push("border border-gray-200");
+  }
   return (
     <div
       onClick={handleClick}
       onMouseDown={handleMouseDown}
       onMouseEnter={handleMouseEnter}
-      className={[
-        "border border-gray-200 flex items-center justify-center text-sm select-none", // 드래그 시 텍스트 선택 방지
-        isActive ? "bg-blue-200 border-blue-500" : "bg-white hover:bg-gray-100",
-      ].join(" ")}
+      className={classes.join(" ")}
       style={{ width: CELL_WIDTH, height: CELL_HEIGHT }}
     >
       {value}

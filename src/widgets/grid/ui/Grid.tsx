@@ -4,6 +4,7 @@ import { useMemo, useCallback, useEffect } from "react";
 import { Cell } from "./Cell";
 import {
   useActiveCellMap,
+  useActiveBounds,
   useSetActive,
   useSelection,
   useBeginSelection,
@@ -31,6 +32,7 @@ const norm = (
 
 export const Grid = () => {
   const activeCellMap = useActiveCellMap();
+  const activeBounds = useActiveBounds();
   const selection = useSelection();
 
   const setActive = useSetActive();
@@ -94,17 +96,40 @@ export const Grid = () => {
       {/* 셀들 */}
       {rows.flatMap((row) =>
         cols.map((col) => {
-          const isActive =
+          const selected =
             !!activeCellMap[`${row},${col}`] ||
             isRange({ row, col }, selection);
 
+          //  edge는 확정 후에만(드래그 중엔 숨김)
+          const edgeBounds = selection ? null : activeBounds;
+
+          //  edge는 확정된 활성 셀에만 계산
+          let edge:
+            | {
+                top?: boolean;
+                right?: boolean;
+                bottom?: boolean;
+                left?: boolean;
+              }
+            | undefined;
+
+          if (edgeBounds && activeCellMap[`${row},${col}`]) {
+            const { r1, r2, c1, c2 } = edgeBounds;
+            edge = {
+              top: row === r1,
+              bottom: row === r2,
+              left: col === c1,
+              right: col === c2,
+            };
+          }
           return (
             <Cell
               key={`${row}-${col}`}
               row={row}
               col={col}
               value={""}
-              isActive={isActive} //
+              isActive={selected}
+              edge={edge}
               onMouseDown={handleCellMouseDown}
               onMouseEnter={handleCellMouseEnter}
               onClick={handleCellClick}
