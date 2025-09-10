@@ -1,5 +1,6 @@
 // widgets/grid/ui/Grid.tsx
 import type React from "react";
+import { useGridStore } from "../model/store";
 import { useMemo, useCallback, useEffect } from "react";
 import { Cell } from "./Cell";
 import {
@@ -39,6 +40,55 @@ export const Grid = () => {
   const beginSelection = useBeginSelection();
   const updateSelection = useUpdateSelection();
   const endSelection = useEndSelection();
+
+  // 스토어의 setValue 가져오기
+  const setValue = useGridStore((s) => s.setValue);
+
+  //  Backspace/Delete로 선택 영역 비우기
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      // 편집용 input/textarea/contentEditable에 포커스 있으면 무시
+      const ae = document.activeElement as HTMLElement | null;
+      if (
+        ae &&
+        (ae.tagName === "INPUT" ||
+          ae.tagName === "TEXTAREA" ||
+          ae.isContentEditable)
+      ) {
+        return;
+      }
+
+      if (e.key !== "Backspace" && e.key !== "Delete") return;
+
+      // active가 1개도 없으면 무시
+      const hasActive = Object.keys(activeCellMap).length > 0 || !!activeBounds;
+      if (!hasActive) return;
+
+      e.preventDefault(); // 브라우저 뒤로가기  방지
+
+      if (activeBounds) {
+        //  확정된 직사각형 범위가 있으면 그 범위를 싹 비우기
+        const { r1, r2, c1, c2 } = activeBounds;
+        for (let r = r1; r <= r2; r++) {
+          for (let c = c1; c <= c2; c++) {
+            setValue(r, c, "");
+          }
+        }
+      } else {
+        //  activeCellMap 기반으로 싹 비우기
+        for (const key of Object.keys(activeCellMap)) {
+          const [rStr, cStr] = key.split(",");
+          const r = Number(rStr);
+          const c = Number(cStr);
+          setValue(r, c, "");
+        }
+      }
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [activeCellMap, activeBounds, setValue]);
+
   const rows = useMemo(
     () => Array.from({ length: DEFAULT_ROW_COUNT }, (_, r) => r),
     []
