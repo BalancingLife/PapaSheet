@@ -37,8 +37,10 @@ export const Cell = React.memo(function Cell({
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState(displayValue);
   const inputRef = useRef<HTMLInputElement>(null);
+
   const handleClick = useCallback(() => {
     onClick(row, col);
+    setEditing(false);
   }, [onClick, row, col]);
 
   const handleDoubleClick = useCallback(
@@ -50,11 +52,19 @@ export const Cell = React.memo(function Cell({
     [displayValue]
   );
 
+  // 더블클릭 시 focus
   useEffect(() => {
     if (editing) {
       requestAnimationFrame(() => inputRef.current?.focus());
     }
   }, [editing]);
+
+  // focus 해제 로직
+  useEffect(() => {
+    if (!isActive) {
+      setEditing(false);
+    }
+  }, [isActive]);
 
   const commit = useCallback(() => {
     setValue(row, col, draft);
