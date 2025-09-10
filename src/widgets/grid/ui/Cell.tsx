@@ -59,13 +59,6 @@ export const Cell = React.memo(function Cell({
     }
   }, [editing]);
 
-  // focus 해제 로직
-  useEffect(() => {
-    if (!isActive) {
-      setEditing(false);
-    }
-  }, [isActive]);
-
   const commit = useCallback(() => {
     setValue(row, col, draft);
     setEditing(false);
@@ -88,6 +81,13 @@ export const Cell = React.memo(function Cell({
     },
     [commit, cancel]
   );
+
+  // value commit 하고 focus 해제
+  useEffect(() => {
+    if (!isActive && editing) {
+      commit();
+    }
+  }, [isActive, editing, commit]);
 
   // 편집 중 드래그/셀렉션 충돌 방지
   const stop = useCallback((e: React.SyntheticEvent) => {
