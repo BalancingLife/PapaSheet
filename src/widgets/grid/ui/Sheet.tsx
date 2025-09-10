@@ -41,7 +41,7 @@ export const Sheet = () => {
       >
         {/* 좌상단 corner(cell) */}
         <div
-          className="border-b border-r border-gray-400 bg-gray-50 flex items-center justify-center text-sm text-gray-600 select-none sticky top-0 left-0 z-20"
+          className="border-b border-r border-gray-400 bg-gray-50 flex items-center justify-center text-sm text-gray-600 select-none sticky top-0 left-0 z-21"
           style={{ width: CELL_WIDTH, height: CELL_HEIGHT }}
         >
           {/* 전체선택 버튼 자리 */}
@@ -49,12 +49,12 @@ export const Sheet = () => {
         </div>
 
         {/* 헤더(가로 동기화) */}
-        <div className="border-b border-gray-400 sticky top-0 z-10 bg-white">
+        <div className="border-b border-gray-400 sticky top-0 z-20 bg-white">
           <GridHeader />
         </div>
 
         {/* 인덱스(세로 동기화) */}
-        <div className="border-r border-gray-400 sticky left-0 bg-white">
+        <div className="border-r border-gray-400 sticky left-0 bg-white z-20">
           <GridIndex />
         </div>
 
